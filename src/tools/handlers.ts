@@ -86,7 +86,13 @@ export const toolHandlers: Record<string, ToolHandler> = {
   },
 
   fizzy_get_card: async (client, args) => {
-    return client.getCard(args.account_slug as string, args.card_id as string);
+    const cardNumber = await resolveCardNumber(
+      client,
+      args.account_slug as string,
+      args.card_id as string | undefined,
+      args.card_number as string | undefined
+    );
+    return client.getCard(args.account_slug as string, cardNumber);
   },
 
   fizzy_create_card: async (client, args) => {
@@ -102,7 +108,13 @@ export const toolHandlers: Record<string, ToolHandler> = {
   },
 
   fizzy_update_card: async (client, args) => {
-    await client.updateCard(args.account_slug as string, args.card_id as string, {
+    const cardNumber = await resolveCardNumber(
+      client,
+      args.account_slug as string,
+      args.card_id as string | undefined,
+      args.card_number as string | undefined
+    );
+    await client.updateCard(args.account_slug as string, cardNumber, {
       title: args.title as string,
       description: args.description as string,
       status: args.status as "draft" | "published" | "archived" | undefined,
@@ -111,12 +123,18 @@ export const toolHandlers: Record<string, ToolHandler> = {
       tag_ids: args.tag_ids as string[],
       due_on: args.due_on as string,
     });
-    return `Card ${args.card_id} updated successfully`;
+    return `Card ${cardNumber} updated successfully`;
   },
 
   fizzy_delete_card: async (client, args) => {
-    await client.deleteCard(args.account_slug as string, args.card_id as string);
-    return `Card ${args.card_id} deleted successfully`;
+    const cardNumber = await resolveCardNumber(
+      client,
+      args.account_slug as string,
+      args.card_id as string | undefined,
+      args.card_number as string | undefined
+    );
+    await client.deleteCard(args.account_slug as string, cardNumber);
+    return `Card ${cardNumber} deleted successfully`;
   },
 
   // ============ Card Action Tools ============

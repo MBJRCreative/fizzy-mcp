@@ -166,7 +166,14 @@ export const getCardsSchema = z.object({
 
 export const getCardSchema = z.object({
   account_slug: accountSlugSchema,
-  card_id: cardNumberSchema,
+  card_id: z.string().optional().describe(
+    "The card identifier - either the internal ID (e.g., '03frzf...') or the visible card number (e.g., '89'). " +
+    "If an internal ID is provided, it will be resolved to the card number automatically."
+  ),
+  card_number: z.string().optional().describe(
+    "The visible card number shown on the board (e.g., '89'). " +
+    "Use this OR card_id - if both provided, card_number takes priority."
+  ),
 });
 
 export const createCardSchema = z.object({
@@ -206,7 +213,14 @@ export const createCardSchema = z.object({
 
 export const updateCardSchema = z.object({
   account_slug: accountSlugSchema,
-  card_id: cardNumberSchema,
+  card_id: z.string().optional().describe(
+    "The card identifier - either the internal ID (e.g., '03frzf...') or the visible card number (e.g., '89'). " +
+    "If an internal ID is provided, it will be resolved to the card number automatically."
+  ),
+  card_number: z.string().optional().describe(
+    "The visible card number shown on the board (e.g., '89'). " +
+    "Use this OR card_id - if both provided, card_number takes priority."
+  ),
   title: z.string().optional().describe(
     "New card title. Omit to keep current title unchanged."
   ),
@@ -240,7 +254,14 @@ export const updateCardSchema = z.object({
 
 export const deleteCardSchema = z.object({
   account_slug: accountSlugSchema,
-  card_id: cardNumberSchema,
+  card_id: z.string().optional().describe(
+    "The card identifier - either the internal ID (e.g., '03frzf...') or the visible card number (e.g., '89'). " +
+    "If an internal ID is provided, it will be resolved to the card number automatically."
+  ),
+  card_number: z.string().optional().describe(
+    "The visible card number shown on the board (e.g., '89'). " +
+    "Use this OR card_id - if both provided, card_number takes priority."
+  ),
 });
 
 // Comment schemas with HTML formatting guidance
